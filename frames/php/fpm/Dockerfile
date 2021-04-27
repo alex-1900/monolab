@@ -22,8 +22,12 @@ ENV WEB_DOCUMENT_ROOT=/workdir/php \
     WEB_NO_CACHE_PATTERN="\.(css|js|gif|png|jpg|svg|json|xml)$"
 
 RUN set -ex \
-    && echo https://dl-4.alpinelinux.org/alpine/v3.13/community/ >> /etc/apk/repositories \
+#    && echo https://dl-4.alpinelinux.org/alpine/v3.13/community/ >> /etc/apk/repositories \
+    && sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories \
+    && apk update \
     && apk add --no-cache \
+        oniguruma-dev \
+        libmcrypt-dev \
         bash \
         ca-certificates \
         openssl \
@@ -83,14 +87,12 @@ RUN set -ex \
         libzip-dev \
         libmemcached-dev \
         yaml-dev \
-    && apk add --no-cache gnu-libiconv --update-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/testing/ --allow-untrusted \
+    && apk add --no-cache gnu-libiconv --update-cache --repository https://mirrors.ustc.edu.cn/alpine/edge/testing/ --allow-untrusted \
     && PKG_CONFIG_PATH=/usr/local docker-php-ext-configure intl \
     && docker-php-ext-configure gd --with-jpeg --with-freetype --with-webp \
     && docker-php-ext-configure ldap \
     && PHP_OPENSSL=yes docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
     && docker-php-ext-install \
-        mbstring \
-        openssl \
         bcmath \
         bz2 \
         calendar \
@@ -138,8 +140,7 @@ RUN set -ex \
         redis \
         #imagick \
         mongodb \
-        openssl \
-        mbstring \
+#        openssl \
         #amqp \
     && docker-php-ext-enable xdebug \
     # Uninstall dev and header packages
