@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  nginx:
+    build: ./frames/nginx
+    image: alexlayton/monolab-nginx:1.0
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - NGINX_PORT=80
+    volumes:
+      - ./sandbox/php:/workdir/php
+      - ./sandbox/html:/workdir/html
+  phpfpm:
+    build: ./frames/php/fpm
+    image: alexlayton/monolab-php-fpm:1.0
+    restart: always
+    ports:
+      - 9001:9001
+    environment:
+      XDEBUG_CONFIG: client_host=host.docker.internal client_port=9001
+    volumes:
+      - ./sandbox/php:/workdir/php
+      - ./frames/php/fpm/conf/php-fpm.d:/usr/local/etc/php-fpm.d
+      - ./frames/php/fpm/conf/php.ini:/usr/local/etc/php/php.ini
