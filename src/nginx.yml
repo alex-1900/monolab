@@ -1,0 +1,16 @@
+version: '3.9'
+
+services:
+  nginx:
+    build: frames/nginx
+    image: alexlayton/monolab-nginx:1.0
+    labels:
+      monolab.frame.type: "tool"
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - NGINX_PORT=80
+    volumes:
+      - ./sandbox/html:/workdir/html

@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  nginx:
+    volumes:
+      - ./sandbox/php:/workdir/php
+      - ./frames/php/fpm/conf/nginx.conf:/etc/nginx/conf.d/php.conf:ro
+  phpfpm:
+    build: frames/php/fpm
+    image: alexlayton/monolab-php-fpm:1.0
+    container_name: alexlayton_monolab_php_fpm
+    labels:
+      monolab.frame.type: "language"
+      monolab.frame.lang: "php"
+    restart: always
+    ports:
+      - 9001:9001
+    environment:
+      XDEBUG_CONFIG: client_host=host.docker.internal client_port=9001
+    volumes:
+      - ./sandbox/php:/workdir/php

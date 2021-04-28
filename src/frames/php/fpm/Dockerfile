@@ -154,18 +154,12 @@ RUN set -ex \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin/ --filename=composer1 --1 \
     && ln -sf /usr/local/bin/composer2 /usr/local/bin/composer
 
-WORKDIR /
+WORKDIR /workdir/php
 
 ADD conf/php.ini /usr/local/etc/php/php.ini
 
-ADD conf/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
-
-# php fpm stage
-FROM php_basic_env AS fpm
+ADD conf/php-fpm-www.conf /usr/local/etc/php-fpm.d/www.conf
 
 EXPOSE 9000
 
 ENTRYPOINT ["php-fpm", "--nodaemonize"]
-
-# php cli stage
-FROM php_basic_env AS cli
