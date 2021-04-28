@@ -1,25 +1,4 @@
-FROM php:8.0-fpm-alpine3.13
-
-ENV TERM="xterm" \
-    LANG="C.UTF-8" \
-    LC_ALL="C.UTF-8"
-ENV LOG_STDOUT="" \
-    LOG_STDERR=""
-ENV APPLICATION_USER=application \
-    APPLICATION_GROUP=application \
-    APPLICATION_PATH=/workdir/php \
-    APPLICATION_UID=1000 \
-    APPLICATION_GID=1000
-ENV PHP_SENDMAIL_PATH="/usr/sbin/sendmail -t -i"
-ENV LD_PRELOAD="/usr/lib/preloadable_libiconv.so"
-
-ENV WEB_DOCUMENT_ROOT=/workdir/php \
-    WEB_DOCUMENT_INDEX=index.php \
-    WEB_ALIAS_DOMAIN=*.vm \
-    WEB_PHP_TIMEOUT=600 \
-    WEB_PHP_SOCKET="" \
-    WEB_PHP_SOCKET=0.0.0.0:9000 \
-    WEB_NO_CACHE_PATTERN="\.(css|js|gif|png|jpg|svg|json|xml)$"
+FROM php:8.0-fpm-alpine3.13 AS php_basic_env
 
 RUN set -ex \
 #    && echo https://dl-4.alpinelinux.org/alpine/v3.13/community/ >> /etc/apk/repositories \
@@ -177,6 +156,16 @@ RUN set -ex \
 
 WORKDIR /
 
+ADD conf/php.ini /usr/local/etc/php/php.ini
+
+ADD conf/php-fpm.d/www.conf /usr/local/etc/php-fpm.d/www.conf
+
+# php fpm stage
+FROM php_basic_env AS fpm
+
 EXPOSE 9000
 
 ENTRYPOINT ["php-fpm", "--nodaemonize"]
+
+# php cli stage
+FROM php_basic_env AS cli
