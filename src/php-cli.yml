@@ -2,7 +2,7 @@ version: '3.9'
 
 services:
   phpcli:
-    build: frames/php/fpm
+    build: frames/php/cli
     image: alexlayton/monolab-php-cli:1.0
     container_name: alexlayton_monolab_php_cli
     labels:
