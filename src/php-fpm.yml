@@ -13,8 +13,6 @@ services:
       monolab.frame.type: "language"
       monolab.frame.lang: "php"
     restart: always
-    ports:
-      - 9001:9001
     environment:
       XDEBUG_CONFIG: client_host=host.docker.internal client_port=9001
     volumes:

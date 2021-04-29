@@ -165,3 +165,5 @@ WORKDIR /
 ADD conf/php.ini /usr/local/etc/php/php.ini
 
 ADD conf/php-fpm-www.conf /usr/local/etc/php-fpm.d/www.conf
+
+ADD conf/docker-php-ext-xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
