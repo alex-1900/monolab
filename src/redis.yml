@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  redis_node1:
+    image: redis:6.2-alpine
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+    volumes:
+      - ./runtime/data/redis_node1:/data
+      - ./runtime/logs/redis_node1:/logs
+      - ./frames/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    expose:
+      - 6379
+    labels:
+      monolab.frame.type: "redis"
+      monolab.frame.node: 1
+  redis_node2:
+    image: redis:6.2-alpine
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+    volumes:
+      - ./runtime/data/redis_node2:/data
+      - ./runtime/logs/redis_node2:/logs
+      - ./frames/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    expose:
+      - 6379
+    labels:
+      monolab.frame.type: "redis"
+      monolab.frame.node: 2
+  redis_node3:
+    image: redis:6.2-alpine
+    command: [ "redis-server", "/usr/local/etc/redis/redis.conf" ]
+    volumes:
+      - ./runtime/data/redis_node3:/data
+      - ./runtime/logs/redis_node3:/logs
+      - ./frames/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    expose:
+      - 6379
+    labels:
+      monolab.frame.type: "redis"
+      monolab.frame.node: 3

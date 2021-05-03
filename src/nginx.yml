@@ -3,7 +3,7 @@ version: '3.9'
 services:
   nginx:
     build: frames/nginx
-    image: alexlayton/monolab-nginx:1.0
+    image: registry.cn-hangzhou.aliyuncs.com/alexlayton/monolab-nginx-latest:1.0
     labels:
       monolab.frame.type: "tool"
     restart: always

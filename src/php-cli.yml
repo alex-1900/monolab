@@ -3,7 +3,7 @@ version: '3.9'
 services:
   phpcli:
     build: frames/php/cli
-    image: alexlayton/monolab-php-cli:1.0
+    image: registry.cn-hangzhou.aliyuncs.com/alexlayton/monolab-php-8.0-cli:1.0
     container_name: alexlayton_monolab_php_cli
     labels:
       monolab.frame.type: "language"
